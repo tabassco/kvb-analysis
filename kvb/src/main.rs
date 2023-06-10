@@ -37,17 +37,12 @@ fn broken_elevator(path: &PathBuf) -> BrokenElevators {
 
     ev
 }
+
 fn main() {
     for entry in glob("data/escalator*.json").expect("Failed to read glob pattern") {
         println!("{:?}", entry);
         let path: PathBuf = entry.unwrap();
-        if std::fs::File::open(&path)
-            .unwrap()
-            .metadata()
-            .unwrap()
-            .len()
-            == 0
-        {
+        if std::fs::metadata(&path).expect("file not accessable").len() == 0 {
             println!("File is empty");
             continue;
         }
